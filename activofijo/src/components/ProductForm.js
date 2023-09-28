@@ -4,8 +4,9 @@ const ProductForm = ({ onSave }) => {
   const [startNumber, setStartNumber] = useState('');
   const [endNumber, setEndNumber] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Estado para el cargador
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const start = parseInt(startNumber);
@@ -15,6 +16,8 @@ const ProductForm = ({ onSave }) => {
       setError('Ingrese un número de inicio válido y un número final mayor que el inicio.');
       return;
     }
+
+    setLoading(true); // Mostrar el cargador
 
     const generatedProducts = [];
 
@@ -26,11 +29,15 @@ const ProductForm = ({ onSave }) => {
       generatedProducts.push(newProduct);
     }
 
+    // Simulación de retardo para mostrar el cargador
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     onSave(generatedProducts);
 
     setStartNumber('');
     setEndNumber('');
     setError('');
+    setLoading(false); // Ocultar el cargador después de la generación
   };
 
   return (
@@ -57,12 +64,23 @@ const ProductForm = ({ onSave }) => {
                 onChange={(e) => setEndNumber(e.target.value)}
               />
             </div>
-            {error && <p className="text-danger">{error}</p>}
-            <div className="text-center">
-              <button type="submit" className="btn btn-primary">
-                Generar Códigos
-              </button>
-            </div>
+            {loading ? (
+              <div className="text-center">
+                <div className="spinner-border" role="status">
+                  <span className="visually-hidden">Cargando...</span>
+                </div>
+                <p>Generando códigos...</p>
+              </div>
+            ) : (
+              <>
+                {error && <p className="text-danger">{error}</p>}
+                <div className="text-center">
+                  <button type="submit" className="btn btn-primary">
+                    Generar Códigos
+                  </button>
+                </div>
+              </>
+            )}
           </form>
         </div>
       </div>
