@@ -18,7 +18,7 @@ function App() {
       <h2>Activos Fijos</h2>
       {products.map((product) => (
         <ProductLabel
-          productCode={product.code}
+          productCode={'VLM'+product.code}
         />
       ))}
     </div>
