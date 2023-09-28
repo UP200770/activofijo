@@ -1,10 +1,11 @@
+// ProductLabel.js
 import React, { useRef, useEffect } from "react";
 import JsBarcode from "jsbarcode";
 import { saveAs } from "file-saver"; // Importa saveAs desde file-saver
 import "bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.min.css";
 
-const ProductLabel = ({ productCode }) => {
+const ProductLabel = ({ productCode, onClear }) => {
   const barcodeRef = useRef(null);
 
   useEffect(() => {
@@ -54,9 +55,17 @@ const ProductLabel = ({ productCode }) => {
             </p>
             <h2 className="mb-3">{productCode}</h2>
             <svg ref={barcodeRef} />
-            <button onClick={downloadBarcode} className="btn btn-primary">
-              <i className="fa fa-download"></i> 
-            </button>
+            <div className="d-flex justify-content-between">
+              <button
+                onClick={downloadBarcode}
+                className="btn btn-primary mr-2"
+              >
+                <i className="fa fa-download"></i>
+              </button>
+              <button onClick={onClear} className="btn btn-danger">
+                <i className="fa fa-trash"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
